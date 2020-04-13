@@ -8,7 +8,7 @@
 #define MAX_LEN 120000
 
 
-int min_naive(size_t n, int *a) {
+int min_naive(int n, int *a) {
     int min = a[0];
 
     for (int i=0; i < n; i++) {
@@ -21,7 +21,7 @@ int min_naive(size_t n, int *a) {
 
 
 // Using vectorization
-int min_v(size_t SIZE, int  *a) {
+int min_v(int SIZE, int  *a) {
     __m128i simd_min_comparison;
  
     // Start with 4 offset
@@ -31,7 +31,7 @@ int min_v(size_t SIZE, int  *a) {
 
     for (int i = 1; i < SIZE; i += 4) {
         simd_min_comparison = _mm_loadu_si128((__m128i *) &a[i]);
-
+        printf("%d", i);
         __m128i simd_min = _mm_min_epi16(simd_min_comparison, simd_min);
     }
     
