@@ -27,23 +27,14 @@ int min_v(int SIZE, int  *a) {
  
     // Start with 4 offset
     __m128i simd_min = _mm_loadu_si128((__m128i *) &a[0]); 
-	// int pos1 = _mm_extract_epi32(simd_min, 0);
-	// int pos2 = _mm_extract_epi32(simd_min, 1);
-	// int pos3 = _mm_extract_epi32(simd_min, 2);
-	// int pos4 = _mm_extract_epi32(simd_min, 3);
-	// printf("Extracted First: %d %d %d %d \n", pos1, pos2, pos3, pos4);
+	
     int bitmin[4];
 
     for (int i = 4; i < SIZE; i += 4) {
-		// printf("%d\n", i);
+	
         simd_min_comparison = _mm_loadu_si128((__m128i *) &a[i]);
         
         __m128i simd_min = _mm_min_epi32(simd_min_comparison, simd_min);
-		// pos1 = _mm_extract_epi32(simd_min, 0);
-		// pos2 = _mm_extract_epi32(simd_min, 1);
-		// pos3 = _mm_extract_epi32(simd_min, 2);
-		// pos4 = _mm_extract_epi32(simd_min, 3);
-		// printf("Extracted: %d %d %d %d \n", pos1, pos2, pos3, pos4);
 		
     }
     
@@ -64,7 +55,7 @@ int main()
 	clock_t begin = clock();
 
 	printf("min = %d\n", min_naive(MAX_LEN, arr));
-	// printf("SIZE: %d", MAX_LEN );
+	
 	clock_t end = clock();
 	time_spent1 += (double)(end - begin) / CLOCKS_PER_SEC;
 
