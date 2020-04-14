@@ -22,21 +22,34 @@ int min_naive(int n, int *a) {
 
 // Using vectorization
 int min_v(int SIZE, int  *a) {
+	// printf("%d", SIZE);
     __m128i simd_min_comparison;
  
     // Start with 4 offset
     __m128i simd_min = _mm_loadu_si128((__m128i *) &a[0]); 
+	// int pos1 = _mm_extract_epi32(simd_min, 0);
+	// int pos2 = _mm_extract_epi32(simd_min, 1);
+	// int pos3 = _mm_extract_epi32(simd_min, 2);
+	// int pos4 = _mm_extract_epi32(simd_min, 3);
+	// printf("Extracted First: %d %d %d %d \n", pos1, pos2, pos3, pos4);
+    int bitmin[4];
 
-    int bitmax[4];
-
-    for (int i = 1; i < SIZE; i += 4) {
+    for (int i = 4; i < SIZE; i += 4) {
+		// printf("%d\n", i);
         simd_min_comparison = _mm_loadu_si128((__m128i *) &a[i]);
-        printf("%d", i);
-        __m128i simd_min = _mm_min_epi16(simd_min_comparison, simd_min);
+        
+        __m128i simd_min = _mm_min_epi32(simd_min_comparison, simd_min);
+		// pos1 = _mm_extract_epi32(simd_min, 0);
+		// pos2 = _mm_extract_epi32(simd_min, 1);
+		// pos3 = _mm_extract_epi32(simd_min, 2);
+		// pos4 = _mm_extract_epi32(simd_min, 3);
+		// printf("Extracted: %d %d %d %d \n", pos1, pos2, pos3, pos4);
+		
     }
     
-    _mm_storeu_si128((__m128i *)bitmax, simd_min);
-    return min_naive(4, bitmax);
+    _mm_storeu_si128((__m128i *)bitmin, simd_min);
+	// printf("Extracted: %d %d %d %d \n", bitmin[0], bitmin[1], bitmin[2], bitmin[3]);
+    return min_naive(4, bitmin);
 }
 
 int main()
@@ -51,7 +64,7 @@ int main()
 	clock_t begin = clock();
 
 	printf("min = %d\n", min_naive(MAX_LEN, arr));
-
+	// printf("SIZE: %d", MAX_LEN );
 	clock_t end = clock();
 	time_spent1 += (double)(end - begin) / CLOCKS_PER_SEC;
 
