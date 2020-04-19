@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define MAX_LEN 120000
+#define MAX_LEN 12000
 
 
 int min_naive(int n, int *a) {
@@ -34,7 +34,7 @@ int min_v(int SIZE, int  *a) {
 	
         simd_min_comparison = _mm_loadu_si128((__m128i *) &a[i]);
         
-        __m128i simd_min = _mm_min_epi32(simd_min_comparison, simd_min);
+         simd_min = _mm_min_epi16(simd_min_comparison, simd_min);
 		
     }
     
@@ -63,13 +63,17 @@ int main()
 
     	begin = clock();
 
-	printf("min = %d\n", min_v(MAX_LEN, arr));
 
-    	end = clock();
+	printf("min = %d\n", min_v(MAX_LEN, arr));
+    end = clock();
 	time_spent2 += (double)(end - begin) / CLOCKS_PER_SEC;
 
-    	printf("Time elpased is %f seconds for 128bit vectorize min\n", time_spent2);
+	
+	
 
-	printf("%f X time faster.\n", time_spent1/time_spent2);
+
+    printf("Time elpased is %f seconds for 128bit vectorize min\n", time_spent2);
+
+	printf("%f X time faster .\n", time_spent1/time_spent2);
 	return 0;
 }
