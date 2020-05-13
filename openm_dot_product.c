@@ -32,7 +32,7 @@ int main() {
 	double time_spent2 = 0.0;
 	
 
-    int N = 120000;
+    int N = 100000;
     int a[N];
     int b[N];
 
