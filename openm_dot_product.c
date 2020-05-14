@@ -58,7 +58,7 @@ int main() {
     end = clock();
 	time_spent2 += (double)(end - begin) / CLOCKS_PER_SEC;
 
-    	printf("Time elpased is %f seconds for parallel dot product\n", time_spent2);
+    	printf("Time elpased is %f seconds for OPENMP parallel dot product\n", time_spent2);
 
 	printf("%f X time faster.\n", time_spent1/time_spent2);
     
