@@ -18,7 +18,7 @@ int dot_product(size_t N, int *a, int *b) {
     int product = 0;
     
 
-    #pragma omp parallel for  reduction(+:product)
+    #pragma omp parallel for reduction(+:product)
     for (size_t i = 0; i < N; i++) {
         product += a[i] * b[i];
     }
@@ -48,7 +48,7 @@ int main() {
     clock_t end = clock();
 	time_spent1 += (double)(end - begin) / CLOCKS_PER_SEC;
     printf("%d\n", product);
-    printf("Time elpased is %f seconds for naive dot product.\n", time_spent1);
+    printf("Time elapsed is %f seconds for naive dot product.\n", time_spent1);
 
 
     begin = clock();
@@ -58,7 +58,7 @@ int main() {
     end = clock();
 	time_spent2 += (double)(end - begin) / CLOCKS_PER_SEC;
 
-    	printf("Time elpased is %f seconds for OPENMP parallel dot product\n", time_spent2);
+    	printf("Time elapsed is %f seconds for OPENMP parallel dot product\n", time_spent2);
 
 	printf("%f X time faster.\n", time_spent1/time_spent2);
     
